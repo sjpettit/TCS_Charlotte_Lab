@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+<head>
+	<title>Reservation Confirmation</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<SCRIPT type="text/javascript">
+		window.history.forward();
+		function noBack() { window.history.forward(); }
+		
+		function closeWindow() {
+            netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserWrite");
+            alert("This will close the window");
+            window.open('','_self');
+            window.close();
+        }
+
+        	
+	</SCRIPT>
+	
+	<style type="text/css">
+	body {
+				background-color: darkblue;			
+	}
+      
+	
+
+    </style>
+	
+	
+<style type="text/css">
+
+}</style>
+<style>
+	
+	
+</style>
+
+
+
+</head>
+<body >
+	
+	<div class = "navbar navbar-inverse navbar-static-top">
+			<div class = "container">
+				
+				<a href = "#" class = "navbar-brand"><font face="trebuchet MS" size="5" color="white">Reservation</font></a>
+				
+				<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+					<span class = "icon-bar"></span>
+					<span class = "icon-bar"></span>
+					<span class = "icon-bar"></span>
+				</button>
+				
+				<div class = "collapse navbar-collapse navHeaderCollapse">
+				
+					<ul class = "nav navbar-nav navbar-right">
+					
+						<li class = "active"><a href = "/">Home</a></li>
+						<!--
+						<li><a href = "#">Blog</a></li>
+						<li class = "dropdown">
+							
+							<a href = "#" class = "dropdown-toggle" data-toggle = "dropdown">Social Media <b class = "caret"></b></a>
+							<ul class = "dropdown-menu">
+								<li><a href = "#">Twitter</a></li>
+								<li><a href = "#">Facebook</a></li>
+								<li><a href = "#">Google+</a></li>
+								
+							</ul>
+						
+						</li>
+						-->
+						<li><a href = "/about">About</a></li>
+						<li><a href = "#contact" data-toggle="modal">feedback</a></li>
+					
+					</ul>
+				
+				</div>
+				
+				
+				
+			</div>
+		</div>
+		
+		
+	
+<div class="container">
+	<!--<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+	<label class="logoutLblPos">
+		<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return false;"></FORM>
+	</label>
+	<label class="logout2LblPos">
+		<a href="#" onclick = "closeWindow();">close</a>
+	</label>
+	-->
+	<div class="page-header text-center">
+		<h1><span class="fa fa-anchor"></span> Reservation Confirmed</h1>
+		
+	</div>
+	
+	
+
+		<!-- LOCAL INFORMATION -->
+		
+			<div class="well">
+				
+
+				<% if (R.id) { %>
+					<center>
+				<h3><span class="fa fa-user"></span>User:<%= R.name %></h3>
+				</center>
+					<p>
+						<center>
+						<strong>Employee ID</strong>: <%= R.id %>&nbsp;&nbsp;&nbsp
+						<strong>MC#</strong>: <%= R.mc %> &nbsp;&nbsp;
+						<%  /*
+							//var date = new Date();
+							//date = R.from;
+							//fromDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+							//fromDate = new Date(date);
+							//date = R.to;
+							//toDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+							//toDate = new Date(date); */
+						%>
+						<strong>From</strong>: <%= f %>&nbsp;&nbsp;&nbsp
+						<strong>To</strong>: <%= t %>
+						</center>
+					</p>
+					
+				
+				
+				<% } %>
+
+			</div>
+		
+		
+		
+	
+	
+
+	
+
+</div>
+<div class = "navbar navbar-inverse navbar-fixed-bottom">
+		
+			<div class = "container">
+				<p class = "navbar-text pull-left">&copy;This work is licensed under
+					<a href="http://www.tcs.com/Pages/default.aspx">Tata Consultacy Services </a></p>
+					
+					<a href = "#" class = "navbar-btn btn-default btn-sm btn pull-right" id="btnSubmit"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+					
+			</div>
+		
+</div>
+
+
+		<div class = "modal fade" id = "contact" role = "dialog">
+		    <div class = "modal-dialog">
+		        
+				
+				<div class = "modal-content">
+					
+					<!--
+					<div  id="contentWrap" class="alert alert-success">
+							<p id="success"><center>Thanks for your feedback</center></p>
+					</div>
+					-->
+					
+		            <form id="setNick1" class = "form-horizontal" action="/feedback" method ="POST">
+		                <div class = "modal-header">
+		                    <h4>TCS Lab Reservation Team FeedBack</h4>
+		                </div>
+						<div id="thank"></div>
+		                <div  class = "modal-body" id="feedForm">
+						
+		                    <div class = "form-group">
+		                        
+		                        <label for = "contact-name" class = "col-lg-2 control-label">Name:</label>
+		                        <div class = "col-lg-10">
+		                            
+		                            <input name="name" type = "text" class = "form-control" id = "contact-name" placeholder = "Full Name">
+		                            
+		                        </div>
+		                        
+		                    </div>
+		                    
+		                    <div class = "form-group">
+		                        
+		                        <label for = "contact-email" class = "col-lg-2 control-label">Employee ID</label>
+		                        <div class = "col-lg-10">
+		                            
+		                            <input name="empID" type = "number" class = "form-control" id = "contact-empID" placeholder = "your TCS ID">
+		                            
+		                        </div>
+		                        
+		                    </div>
+		                    
+		                    <div class = "form-group">
+		                        
+		                        <label for = "contact-msg" class = "col-lg-2 control-label">Message:</label>
+		                        <div class = "col-lg-10">
+		                            
+		                            <textarea name="feedback" id="contact-feedback" class = "form-control" rows = "8"></textarea>
+		                            
+		                        </div>
+		                        
+		                    </div>
+		                
+		                </div>
+		                <div class = "modal-footer">
+                            <a class = "btn btn-default" data-dismiss = "modal">Close</a>    
+		                    <button class = "btn btn-primary" type = "submit">Send</button>
+		                </div>
+		            </form>
+					
+		        </div>
+		    </div>
+		</div>
+		
+		<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src = "js/bootstrap.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+		jQuery(function($){
+			var socket = io.connect();
+			
+			var $nickForm = $('#setNick');
+			var $feedForm = $('#setNick1');
+			
+			var $nickError = $('#nickError');
+			
+			var $nickBox = $('#nickname');
+			var $nickBoxFrom = $('#fromWidget');
+			var $nickBoxTo = $('#toWidget');
+			
+			var $nameBox = $('#contact-name');
+			var $empIDBox = $('#contact-empID');
+			var $feedbackBox = $('#contact-feedback');
+			
+			
+			
+			//var $messageForm = $('#send-message');
+			//var $messageBox = $('#message');
+			
+			var $chat = $('#chat');
+			var $thank = $('#thank');
+			
+			//var $schedule = $('#schedule');
+			
+			var $fromDate = new Date();
+			var $toDate  = new Date();
+			
+			
+			
+			
+			$nickForm.submit(function(e){
+				e.preventDefault();
+				//alert($nickBox.val());
+				var $fDate = new Date($nickBoxFrom.val());
+				var $tDate = new Date($nickBoxTo.val());
+				var $fDateNew = new Date();
+				var $tDateNew = new Date(2017,12,31,23,59,00,00);
+				
+				
+				if ($nickBox.val() >= 5 && $nickBox.val() <= 14 ) {
+					
+					if ($nickBoxFrom.val() =="" && $nickBoxTo.val()==""){
+						
+						$("#chat").html("<font color='black'><strong>Current Reservations</strong></font><br/>");
+							socket.emit('new user', $nickBox.val(), $fDateNew, $tDateNew, function(data){
+								if(data){
+									//$('#nickWrap').hide();
+									//$('#contentWrap').show();
+									
+								} else{
+									//$nickError.html('No Schedule available');
+								}
+							});
+						
+					}
+					else {
+					
+						if($nickBoxFrom.val() !="" && $nickBoxTo.val()==""){
+							$("#chat").html("<font color='black'>::Unavailable Schedules::</font><br/>");
+								socket.emit('new user', $nickBox.val(), $fDate, $tDateNew, function(data){
+									if(data){
+										//$('#nickWrap').hide();
+										//$('#contentWrap').show();
+										
+									} else{
+										//$nickError.html('No Schedule available');
+									}
+								});
+						}
+						else{
+						
+						
+							if($nickBoxFrom.val() =="" && $nickBoxTo.val()!=""){
+								$("#chat").html("<font color='black'>::Unavailable Schedules::</font><br/>");
+									socket.emit('new user', $nickBox.val(), $fDateNew, $tDate, function(data){
+										if(data){
+											//$('#nickWrap').hide();
+											//$('#contentWrap').show();
+											
+										} else{
+											//$nickError.html('No Schedule available');
+										}
+									});
+							}
+							else{
+							
+							
+							
+								if ($nickBoxFrom.val() !="" && $nickBoxTo.val()!="") {
+										
+								
+										$("#chat").html("<font color='black'>::Unavailable Schedules::</font><br/>");
+										socket.emit('new user', $nickBox.val(), $fDate, $tDate, function(data){
+											if(data){
+												//$('#nickWrap').hide();
+												//$('#contentWrap').show();
+												
+											} else{
+												//$nickError.html('No Schedule available');
+											}
+										});
+								}
+								else {
+										alert("Date are not in correct format");
+										return false;
+								}
+							}
+						}
+					}
+				}
+				else {
+					alert("Machine number must be within 5 - 14 ");
+					return false;
+				}
+				
+			});
+			
+			
+			socket.on('usernames', function(data){
+				fromDate = new Date(data.timeFrom);
+				toDate = new Date(data.timeTo);
+				fromMonth = fromDate.getMonth() + 1;
+				fromMonth = fromMonth < 10 ? '0'+fromMonth :fromMonth;
+				toMonth = toDate.getMonth() + 1;
+				toMonth = toMonth <10 ? '0'+toMonth :toMonth;
+				fromMin = fromDate.getMinutes() < 10 ? '0'+fromDate.getMinutes() : fromDate.getMinutes();
+				toMin = toDate.getMinutes() < 10 ? '0'+ toDate.getMinutes() : toDate.getMinutes();
+				fromDay = fromDate.getDate() < 10 ? '0'+fromDate.getDate() :fromDate.getDate();
+				toDay  =  toDate.getDate() < 10 ? '0'+toDate.getDate() : toDate.getDate() ;
+				fromHour = fromDate.getHours() < 10 ? '0'+fromDate.getHours() : fromDate.getHours();
+				toHour = toDate.getHours() < 10 ? '0'+toDate.getHours() : toDate.getHours() ;
+				
+				//$chat.append('<center><font color="black">' + fromMonth + "/"+fromDate.getUTCDate()+ " "+ fromDate.getUTCHours() + ":" + fromDate.getUTCMinutes()+" -- " + toMonth + "/"+ toDate.getUTCDate()+ " "+ toDate.getUTCHours() + ":" + toDate.getUTCMinutes() + "</font></center><br/>"); 
+				$chat.append('<center><font color="black">' + fromMonth + "/"+fromDay+ " "+ fromHour + ":" + fromMin+" -- " + toMonth + "/"+ toDay + " "+ toHour + ":" + toMin + "</font></center><br>"); 
+				//$chat.append('<font color="black">' + fromDate + "--" + toDate +  "</font><br/>"); 
+								
+								
+				//$chat.append('<center><font color="black">' + fromDate.getUTCMonth() + "/"+fromDate.getUTCDate()+ " "+ fromDate.getUTCHours() + ":" + fromDate.getUTCMinutes()+" -- " + toDate.getUTCMonth() + "/"+ toDate.getUTCDate()+ " "+ toDate.getUTCHours() + ":" + toDate.getUTCMinutes() + "</font></center><br/>"); 
+								
+			
+			});
+			
+			
+			$feedForm.submit(function(e){
+				e.preventDefault();
+				if ( $nameBox.val()=="" || $empIDBox.val() =="" || $feedbackBox.val()==""){
+					alert("Please enter all fields");
+					return false;
+				}
+				else {
+				socket.emit('feedback', $nameBox.val(), $empIDBox.val(), $feedbackBox.val(), function(data){
+					if(data){
+						$('#feedForm').hide();
+						//$('#contentWrap').show();
+						
+					} else{
+						//$nickError.html('No Schedule available');
+					}
+				});
+				}
+				//$nickBox.val('');
+			});
+			
+			
+			$("#btnSubmit").click(function(e){
+				e.preventDefault();
+				$(this).css('color','red');
+				socket.emit('like', function(data){
+					if(data){
+						//$('#feedForm').hide();
+						//$('#contentWrap').show();
+						
+					} else{
+						//$nickError.html('No Schedule available');
+					}
+				});
+				//$nickBox.val('');
+			});
+			
+				
+			socket.on('thanks', function(data){
+				$thank.append('<br><center><font color="black">' + data.message + "</font></center><br/>"); 
+			});
+			
+			
+		});
+	</script>
+	
+	<script type="text/javaScript">
+		function validateForm()
+		{
+			var empID=document.forms["myForm"]["empID"].value;
+			var name=document.forms["myForm"]["name"].value;
+			var stdate=document.forms["myForm"]["from"].value;
+			var endate=document.forms["myForm"]["to"].value;
+			var reason=document.forms["myForm"]["reason"].value;
+			var mc=document.forms["myForm"]["mc"].value;
+			
+			
+			//date = new Date();
+			//alert(date);
+			//alert(stdate);
+			//todayDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+			//alert(todayDate);
+			
+			if (empID <=99999)
+			{
+				alert(" Not a valid Employee Number");
+				return false;
+			}
+			
+			if (empID <= "")
+			{
+				alert(" Not a valid Employee Number");
+				return false;
+			}
+			
+			if (name == "")
+			{
+				alert("Please Enter a valid Name");
+				return false;
+			}
+			
+			
+			
+			var fromDate = new Date(stdate);
+			var toDate = new Date(endate);
+			//alert(toDate);
+			//fromDate = fromDate.addHours(5);
+			//toDate = toDate.addHours(5);
+			
+			//alert(fromDate);
+			//alert(toDate);
+			if(!fromDate.valid()){
+				alert("Enter a valid From date");
+				return false;
+			}
+			
+			if(!toDate.valid()){
+				alert("Enter a valid To date");
+				return false;
+			}
+			
+			todayDate = new Date();
+			
+			//todayDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+			//alert(todayDate);
+			date = new Date();
+			date = fromDate;
+			//alert(date);
+			//fromDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+			//alert(fromDate);
+			
+			//date = toDate;
+			//alert(date);
+			
+			//toDate = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds());
+			
+			//alert(toDate);
+			
+			if (fromDate <= todayDate)
+			{
+				//alert(todayDate);
+				//alert(fromDate);
+				alert(" From Date must be greater than today's");
+				return false;
+			}
+			
+			if (fromDate >= toDate)
+			{
+				alert(" From Date must be less than To Date & Time");
+				return false;
+			}
+			
+			if(mc <5 || mc > 14)
+			{
+				alert("Please enter Correct M/C number. M/C 5-14 are allowed.");
+				return false;
+			}
+			
+			
+			
+			if(reason =="")
+			{
+				alert("Please fill the proper reason why you want to use the Lab machine");
+				return false;
+			}
+			
+		}
+		
+		Date.prototype.addHours= function(h){
+			var copiedDate = new Date(this.getTime());
+			
+			copiedDate.setHours(copiedDate.getHours()+h);
+			//alert("CopiedDate =" + copiedDate);
+			return copiedDate;
+		}
+		
+		Date.prototype.valid = function() {
+		  //alert("Hi");
+		  return isFinite(this);
+		}
+	
+	
+	function myFunction()
+	{
+		window.open("./index1.1.html");
+	}
+	
+	function validateSForm(){
+		var mc=document.forms["socketForm"]["mc"].value;
+		
+		var stdate=document.forms["socketForm"]["from"].value;
+		var endate=document.forms["socketForm"]["to"].value;
+		
+		if(isNaN(mc)){
+			alert("Please select a machine number");
+			return false;
+		}
+		if(mc <5 || mc > 14)
+		{
+				alert("Please enter Correct M/C number");
+				return false;
+		}
+		
+		
+	}
+	
+	</script>
+</body>
+</html>
