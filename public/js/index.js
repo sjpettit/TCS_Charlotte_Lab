@@ -17,12 +17,12 @@ jQuery(function($){
 		
 		
 		if($('#Login-empID').val() ==""){
-			alert('Please enter Employee ID');
+			Alert('Please enter Employee ID');
 			return false;
 		}
 		
 		if($('#Login-Password').val() == ""){
-			alert('Please enter Password');
+			Alert('Please enter Password');
 			return false;
 		}
 		var btn = $(this);
@@ -39,7 +39,7 @@ jQuery(function($){
 			success: function(data) {
 				
 				if(data.msg=='Wrong'){
-					alert('Wrong UserID or Password');
+					Alert('Wrong UserID or Password');
 					btn.button('reset');
 				}
 				else if(data.msg= 'success'){
@@ -47,10 +47,14 @@ jQuery(function($){
 					btn.button('reset');
 					$sessionData.emp= data.emp;
 					$sessionData.name = data.name;
-					$(".ulClass li:nth-child(2)").removeClass("hidden");
-					$(".ulClass li:nth-child(5)").removeClass("hidden");
-					$(".ulClass li:nth-child(6)").removeClass("hidden");
+					$(".ulClass li:nth-child(2)").addClass("hidden");
+					$(".ulClass li:nth-child(3)").removeClass("hidden");
 					$(".ulClass li:nth-child(4)").removeClass("hidden");
+					$(".ulClass li:nth-child(6)").removeClass("hidden");
+					$(".ulClass li:nth-child(8)").removeClass("hidden");
+					$(".ulClass li:nth-child(5)").removeClass("hidden");
+					$(".ulClass li:nth-child(7)").removeClass("hidden");
+					$(".ulClass li:nth-child(7)").html('<a href="#"><center><i class="glyphicon glyphicon-user"></i>'+' 	Welcome ' + $sessionData.name.split(' ')[0]+'</center></a>')
 					$("#loginform").addClass("hidden");
 					$("#workStationList").removeClass("hidden").addClass("intro");
 				}
@@ -59,7 +63,7 @@ jQuery(function($){
 			},
 			error: function (error) {
 				btn.button('reset');
-				alert('error');
+				Alert('error');
 			}
 			
 		});	
@@ -98,37 +102,43 @@ jQuery(function($){
 		var $cPass = $('#Login-ConfirmPassword-SignUP').val();
 		
 		if($empID == '' || $empID != parseInt($empID)){
-			alert('Employee ID can not be blank' );
+		
+			Alert('Employee ID can not be blank' );
 			return false;
 		}
 		
 		if($name =="" || $name == parseInt($name)){
-			alert('Name can not be blank or Numeric');
+			
+			Alert('Name can not be blank or Numeric');
 			return false;
 		}
 		
 		if($email == ''){
-			alert('Email can not be blank');
+				
+			Alert('Email can not be blank');
 			return false;
 		}
 		else{
 			$emailAfterAt = $email.split('@');
 			//alert($emailAfterAt[1]);
 			if(($emailAfterAt[1]).toLowerCase() != 'tcs.com') {
-				alert('Only TCS email');
+				
+				Alert('Only TCS email');
 				return false;
 			}
 		}
 		
 		if($pass == '' || $cPass == ''){
-			alert('Password can not be blank');
+			
+			Alert('Password can not be blank');
 			return false;
 		}
 		
 		if($pass != $cPass){
-			alert('Pass != Confirm Pass');
+			Alert('Passwords do not match.');
 			return false;
 		}
+		
 		var btn = $(this);
 		btn.button('loading');
 		var data = {};
@@ -144,12 +154,13 @@ jQuery(function($){
 			url: '/SignUpReservation',						
 			success: function(data) {
 				if(data.msg == 'AE'){
-					alert('Already Exisit');
+					
+					Alert('Already Exisit');
 					btn.button('reset');
 				}
 				else{
 					
-					alert('Success');
+					//Alert('Success');
 					btn.button('reset');
 					$('#signUP').removeClass("visible").addClass('hidden');
 					$('#signIN').removeClass("hidden").addClass('visible');
@@ -158,8 +169,9 @@ jQuery(function($){
 				
 			},
 			error: function (error) {
+				
 				btn.button('reset');
-				alert('error connecting Server');
+				Alert('error connecting Server');
 			}
 			
 		});	
@@ -167,7 +179,7 @@ jQuery(function($){
 	});
 
 
-	$(".ulClass li:nth-child(6)").click(function(e){
+	$(".ulClass li:nth-child(8)").click(function(e){
 		e.preventDefault();
 		$sessionData = {};
 		$mc = '';
@@ -175,7 +187,7 @@ jQuery(function($){
 		timeRange = '00:00-00:00';
 		arrayOfBlockedTime  = {};
 		$nDate = new Date();
-		
+		$(".ulClass li:nth-child(6)").html('');
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(dataR),
@@ -188,8 +200,7 @@ jQuery(function($){
 				
 			},
 			error: function (error) {
-				
-				alert('error connecting Server');
+				Alert('error connecting Server');
 			}
 			
 		});	
@@ -198,8 +209,25 @@ jQuery(function($){
 	});
 	
 	$(".ulClass li:nth-child(5)").click(function(e){
-		$("#inventoryControl").removeClass("hidden");
+		if($("#inventoryControl").hasClass("hidden")){
+			//$("#inventoryControl").removeClass("hidden").addClass("visible");
+		}
+		else{
+			//$("#inventoryControl").removeClass("visible").addClass("hidden");
+		}
 	});
+	
+	$(".ulClass li:nth-child(4)").click(function(e){
+		
+		if($("#about").hasClass("hidden")){
+			$("#about").removeClass("hidden").addClass("visible");
+		}
+		else{
+			$("#about").removeClass("visible").addClass("hidden");
+		}
+	});
+	
+	
 	
 	$('.WButton').click(function(e){
 		$('#timeslot').removeClass('hidden').addClass('visible'); 
@@ -220,7 +248,6 @@ jQuery(function($){
 		
 		$date = $('#datepicker2').val();
 		$('#machineNumber').html('');
-		$('#machineNumber').html('<font color ="black" size="5"> Workstation '+$mc+'</font>' );
 		$dateToday = new Date();
 		$nDate = new Date($date);
 		$fdate = new Date($nDate.getFullYear(),$nDate.getMonth(),$nDate.getDate(),00,00,00,00);
@@ -228,11 +255,14 @@ jQuery(function($){
 		
 		if($date == '' || isFinite($date) || ($dateToday >= $tdate)){
 			$('#AvailablityTable').html('');
-			alert('Please select a correct date');
+			$('#submitbuttonReset').removeClass('visible').addClass('hidden');
+			document.getElementById('errorCalendar').innerHTML='Please Select A Valid Date';
+			//alert('Please select a correct date');
 			
 			return false;
 		}
-		
+		$('#machineNumber').html('<font color ="black" size="4"> </br>Available Times For Workstation '+$mc+'</font>' );
+		document.getElementById('errorCalendar').innerHTML='';
 		
 		//alert($fdate + ' ' + $tdate);
 		
@@ -318,7 +348,7 @@ jQuery(function($){
 			},
 			error: function (error) {
 				btn.button('reset');
-				alert('error connecting to Server');
+				Alert('error connecting to Server');
 			}
 			
 		});	
@@ -332,7 +362,7 @@ jQuery(function($){
 			$(this).removeClass('btn-success clickable').addClass('btn-warning');
 			
 			
-			alert('TimeRange = ' + timeRange);
+			//alert('TimeRange = ' + timeRange);
 			if(timeRange =='00:00-00:00'){
 				timeRange = this.value;
 			}
@@ -347,11 +377,13 @@ jQuery(function($){
 						timeRange = timeRange.split('-')[0] +'-'+(this.value).split('-')[1];
 					}
 					else {
-							alert('Already Selected');
+							
+							Alert('Already Selected');
 					}
 					
 				if(checkTime(timeRange)){
-					alert('Can not book: ' + timeRange);
+					
+					Alert('Can not book: ' + timeRange);
 					timeRange = tempTimeRange;
 					$(this).removeClass('btn-warning').addClass('btn-success clickable');
 					
@@ -361,10 +393,12 @@ jQuery(function($){
 				
 			}
 			
+			document.getElementById('timeSpan').innerHTML=timeRange;
 			//alert(timeRange);
 		}
 		else{
-			alert('Already Selected');
+			
+			Alert('Already Selected');
 		}
 		
 	});
@@ -402,7 +436,7 @@ jQuery(function($){
 	
 		//alert('submitbutton123');
 		if(timeRange == '00:00-00:00'){
-			//alert('Please select');
+			document.getElementById('errorCalendar').innerHTML='Please Select A Valid Time';
 			return false;
 		}
 		$sessionData.mc = $mc;
@@ -410,7 +444,7 @@ jQuery(function($){
 		$sessionData.to = new Date($nDate.getFullYear(),$nDate.getMonth(),$nDate.getDate(),timeRange.split('-')[1].split(':')[0],timeRange.split('-')[1].split(':')[1],00,00);
 		
 		//console.log($sessionData);
-		
+		document.getElementById('errorCalendar').innerHTML='';
 		
 		$('#download').removeClass('hidden').addClass('visible');
 	});
@@ -418,13 +452,13 @@ jQuery(function($){
 	
 	$(document).on('click', '#submitbuttonReset', function(e){
 		timeRange = '00:00-00:00';
+		document.getElementById('timeSpan').innerHTML="";
 		delete $sessionData.from;
 		delete $sessionData.to;
 		bldTable();
 		
 		//console.log($sessionData);
 		$('#submitbutton123').removeClass('visible').addClass('hidden');
-		$('#download').removeClass('visable').addClass('hidden');
 	});
 	
 	
@@ -433,7 +467,8 @@ jQuery(function($){
 	$('#reservebutton').click(function(e){
 		e.preventDefault();
 		if($('#reserveComment').val() == ''){
-			//alert('Please enter comment');
+			
+			Alert('Please enter comment');
 			return false;
 		}
 		else {
@@ -447,6 +482,8 @@ jQuery(function($){
 				url: '/doReservation',						
 				success: function(data) {
 					btn.button('reset');
+					document.getElementById('alertSpan').innerHTML=data.message;
+					$('#alertModal').modal('show');
 					//alert(data.message);
 					timeRange = '00:00-00:00';
 					htmlString = '';
@@ -465,11 +502,14 @@ jQuery(function($){
 					$('#datepicker2').val('');
 					$('#reserveComment').val('');
 					$('#machineNumber').html('');
+					//$( ".ulClass li:nth-child(2)" ).trigger( "click" );
+					//$( "#workStationList" ).trigger( "click" );
 								
 				},
 				error: function (error) {
 					btn.button('reset');
-					//alert('error connecting Server');
+					
+					Alert('error connecting Server');
 				}
 				
 			});	
@@ -556,7 +596,7 @@ jQuery(function($){
 			},
 			error: function (error) {
 				//btn.button('reset');
-				//alert('error connecting to Server');
+				Alert('error connecting to Server');
 			}
 			
 		});	
@@ -566,13 +606,18 @@ jQuery(function($){
 	};
 	
 	
-	$('.ulClass li:nth-child(2)').click(function(e){
+	$('.ulClass li:nth-child(3)').click(function(e){
 		//e.preventDefault();
-		$('#reservation').removeClass('hidden').addClass('visible');
+		if($('#reservation').hasClass('hidden')){
+			$('#reservation').removeClass('hidden').addClass('visible');
+		}
+		else{
+			$('#reservation').removeClass('visible').addClass('hidden');
+			return false;
+		}
 		var data = {};
 		data.emp = $sessionData.emp;
-		var btn = $(this);
-		btn.button('loading');
+		
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(data),
@@ -587,18 +632,58 @@ jQuery(function($){
 					
 					showModal(data);
 					
-					btn.button('reset');
+					
 				}
 			},
 			error: function (error) {
-				btn.button('reset');
-				//alert('Error connecting to server');
+				
+				Alert('Error connecting to server');
 				
 			}
 			
 		});	
 	
 	});
+	
+	
+	 $('#myNav').click('li', function() {
+          $('#myNav').collapse('hide');
+        });
+    $("#aAbout").hover(
+          function() {
+            $( this ).append( $( "<center><span> about</span></center>" ) );
+          }, function() {
+            $( this ).find( "span:last" ).remove();
+          }
+        );
+        $("#logout").hover(
+          function() {
+            $( this ).append( $( "<center><span> logout</span></center>" ) );
+          }, function() {
+            $( this ).find( "span:last" ).remove();
+          }
+        );
+        $("#aReservation").hover(
+          function() {
+            $( this ).append( $( "<center><span> Reservation</span></center>" ) );
+          }, function() {
+            $( this ).find( "span:last" ).remove();
+          }
+        );
+        $("#aInventoryControl").hover(
+          function() {
+            $( this ).append( $( "<center><span> Inventory</span></center>" ) );
+          }, function() {
+            $( this ).find( "span:last" ).remove();
+          }
+        );
+        $("#feedback").hover(
+          function() {
+            $( this ).append( $( "<center><span> feedback</span></center>" ) );
+          }, function() {
+            $( this ).find( "span:last" ).remove();
+          }
+        );
 	
 	
 	var showModal =function($data){
@@ -619,7 +704,7 @@ jQuery(function($){
 	
 		$("#myReservation").html("");
 		
-		var htmlString= "<center><div class="+'table-responsive'+"><table id='mytable' class="+'table table-hover'+"><tr><th>Emp ID</th><th>Name</th><th>PC #</th><th>From Date & Time</th><th>To Date & Time</th><th>Action</th></tr></center>";
+		var htmlString= "<center><div class="+'table-responsive'+"><table id='mytable' class="+'table table-hover'+"><tr><th>WorkStation</th><th>From Date & Time</th><th>To Date & Time</th><th>Action</th></tr></center>";
 		
 		
 		
@@ -644,12 +729,11 @@ jQuery(function($){
 			toHour = toDate.getHours() < 10 ? '0'+toDate.getHours() : toDate.getHours() ;
 		
 		
-			 htmlString = htmlString + '<tr id=tr'+doc._id+'><td>'+ doc.id +'</td><td>'+doc.name+'</td><td>'+doc.mc+'</td><td>'+fromDay 
-    + "-"+fromMonth+'-'+ fromYear+'  '+ fromHour + ":"
-    + fromMin+'</td><td>'+toDay + "-"+ toMonth + "-"+ toYear+ '  '+  toHour + ":" 
-    + toMin+'</td><td><button class="btn btn-danger btn-sm btnDelete" data-loading-text="Wait..."'
-    +  'id='+doc._id+'>Cancel</button></td></tr>';
-
+			htmlString = htmlString + '<tr id=tr'+doc._id+'><td>'+doc.mc+'</td><td>'+fromDay 
+				+ "-"+fromMonth+'-'+ fromYear+'  '+ fromHour + ":"
+				+ fromMin+'</td><td>'+toDay + "-"+ toMonth + "-"+ toYear+ '  '+  toHour + ":" 
+				+ toMin+'</td><td><button class="btn btn-danger btn-sm btnDelete" data-loading-text="Wait..."'
+				+  'id='+doc._id+'>Cancel</button></td></tr>';
 			
 			
 			
@@ -689,7 +773,7 @@ jQuery(function($){
 			},
 			error: function (error) {
 				
-				//alert('Error connecting to server');
+				Alert('Error connecting to server');
 				btn.button('reset');
 			}
 			
@@ -702,7 +786,7 @@ jQuery(function($){
 		
 		if ( $('#contact-feedback').val()=="" ){
 			
-			//alertM("Feedback can not be empty");
+			alertM("Feedback can not be empty");
 			return false;
 		}
 
@@ -758,6 +842,16 @@ jQuery(function($){
 	
 	var availableTags = [];
 	
+	var PossibleSoftwares = ['TCS Mastercraft','Eclipse','JBOSS Webserver','Tomcat Webserver','Jetty Webserver','PHP','Python','Java jdk','Ruby',
+	
+		'COBOL','MongoDB','Heroku Toolbelt','NodeJS','Git Bash','Git Shell for Windows','MySQL','Oracle','Datastage','Informatica','C','C++','Microsoft Visual Studio',
+		'MS Visual Studio','MS Office','Robomongo','Google Chrome','Oracle VM','Virtual Machine','Mozilla Firefox','Android Dev Kit','iOS Dev Kit','X-code','Objective-C',
+		'Notepad++','Opera Browser','IE','Anti-Virus','McAfee','Norton','Windows','Mircosoft'
+	];
+	
+	$( "#Software" ).autocomplete({
+				source: PossibleSoftwares
+	});
 	
 	$.ajax({
 		type: 'POST',
@@ -766,7 +860,7 @@ jQuery(function($){
 		url: '/getSoftwareList',						
 		success: function(data) {
 			availableTags = data.sw;
-			
+			console.log(availableTags);
 			$( "#searchAutoComplete" ).autocomplete({
 				source: availableTags
 			});
@@ -775,7 +869,7 @@ jQuery(function($){
 			
 		},
 		error: function (xhr, status, error) {
-			//alert('Error connecting to Server');
+			Alert('Error connecting to Server');
 		}
 			
 	});
@@ -784,7 +878,8 @@ jQuery(function($){
 		e.preventDefault();
 		//console.log(availableTags.indexOf($('#searchAutoComplete').val()));
 		if(availableTags.indexOf($('#searchAutoComplete').val()) == -1){
-			//alert('select s/w');
+			document.getElementById('invAlertSpan').style.color="red";
+			document.getElementById('invAlertSpan').innerHTML='select software';
 			return false;
 		}
 		var data ={}
@@ -795,19 +890,79 @@ jQuery(function($){
 			contentType: 'application/json',
 			url: '/getMachineNumbers',						
 			success: function(data) {
-				//console.log(data.msg);
-				alert('That S/W is available at these machines:  '+ data.msg);
+				if(data.msg=='NF'){
+					document.getElementById('invAlertSpan').style.color="red";
+					document.getElementById('invAlertSpan').innerHTML='This software is not found';
+				}
+				else{
+					document.getElementById('invAlertSpan').style.color="green";
+					document.getElementById('invAlertSpan').innerHTML='That software is available at these machines:  '+ data.msg;
+					
+				}
 				
 			},
 			error: function (xhr, status, error) {
-				//alert('Error connecting to Server');
+				document.getElementById('invAlertSpan').style.color="red";
+				document.getElementById('invAlertSpan').innerHTML='Error connecting to Server';
 			}
 			
 		});
 		
-	});		
-		
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	$('#siriachaSubmit').click(function(e){
+		e.preventDefault();		
+		if($('#Software').val() == ''){
+			document.getElementById('alertSpan').innerHTML='Please select/add software';
 			
+		}else{
+			var allVals = $('.ws:checked').map(function() {return this.value;}).get().join(',');
+			//console.log(allVals);
+			
+			var data ={}
+			data.sw = $('#Software').val();
+			data.mc = allVals;
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				url: '/addSoftware',						
+				success: function(data) {
+					//console.log(data.msg);
+					availableTags.push($('#Software').val());
+					document.getElementById('alertSpan').innerHTML='Succesfully Added Software';
+					
+				},
+				error: function (xhr, status, error) {
+					document.getElementById('alertSpan').innerHTML='Error connecting to Server';
+				}
+
+			
+			});
+		}
+		
+		
+		
+	});		
+	
+	var Alert = function($value){
+		
+		document.getElementById('alertSpan').innerHTML=$value;
+		$('#alertModal').modal('show');
+		
+	};
+	
+		
+	
 			
 			
 			
