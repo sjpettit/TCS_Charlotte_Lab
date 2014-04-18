@@ -159,7 +159,9 @@ app.post('/feedback', function(req, res){
 app.post('/getReservation', function(req, res){
 	var obj = {};
 	//console.log('body: ' + JSON.stringify(req.body));
-	User.find({id: req.body.emp}).sort({from:1}).exec(function(err,docs){
+	var currentDate = new Date();
+	//console.log(currentDate);
+	User.find({id: req.body.emp}).sort({from:1}).where('to').gte(currentDate).exec(function(err,docs){
 		if(err) {
 			console.log("Error from MongoDB:" + err);
 			res.send({msg:'Database Error'});
@@ -479,7 +481,7 @@ app.post('/getSoftwareList', function(req, res){
 				//console.log(items[i].sw);
 				arr.push(items[i].sw_name);
 			}
-			console.log(arr);
+			//console.log(arr);
 			res.send({sw:arr});
 		}
 	});
@@ -553,7 +555,7 @@ app.post('/addSoftware', function(req, res){
 				}
 				//console.log('Update' + arr);
 				//res.send({msg:'Update'});
-				doc.mc=arr;
+				doc.mc=arr.sort();
 				doc.save(function(err,doc){
 
 					if(err){

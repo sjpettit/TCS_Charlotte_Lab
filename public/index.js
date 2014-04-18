@@ -70,16 +70,7 @@ jQuery(function($){
 	
 	});
 	
-	$('.clean').click(function(e){
-		timeRange = '00:00-00:00';
-		document.getElementById('timeSpan').innerHTML="";
-		delete $sessionData.from;
-		delete $sessionData.to;
-		$('#timeslot').removeClass('visible').addClass('hidden');
-		$('#inventoryControl').removeClass('visible').addClass('hidden');
-		$('#download').removeClass('visible').addClass('hidden');
-		$('#reservation').removeClass('visible').addClass('hidden');
-	});
+	
 	
 	
 	$('.sign-in').click(function(e){
@@ -219,10 +210,10 @@ jQuery(function($){
 	
 	$(".ulClass li:nth-child(5)").click(function(e){
 		if($("#inventoryControl").hasClass("hidden")){
-			$("#inventoryControl").removeClass("hidden").addClass("visible");
+			//$("#inventoryControl").removeClass("hidden").addClass("visible");
 		}
 		else{
-			$("#inventoryControl").removeClass("visible").addClass("hidden");
+			//$("#inventoryControl").removeClass("visible").addClass("hidden");
 		}
 	});
 	
@@ -236,11 +227,9 @@ jQuery(function($){
 		}
 	});
 	
-
 	
 	
 	$('.WButton').click(function(e){
-		console.log("wbutton");
 		$('#timeslot').removeClass('hidden').addClass('visible'); 
 		$mc = this.value;
 		$('#machineNumber').html('');
@@ -267,8 +256,7 @@ jQuery(function($){
 		if($date == '' || isFinite($date) || ($dateToday >= $tdate)){
 			$('#AvailablityTable').html('');
 			$('#submitbuttonReset').removeClass('visible').addClass('hidden');
-			//document.getElementById('errorCalendar').innerHTML='Please Select A Valid Date';
-			Alert("Please Select A Valid Date");
+			document.getElementById('errorCalendar').innerHTML='Please Select A Valid Date';
 			//alert('Please select a correct date');
 			
 			return false;
@@ -297,7 +285,7 @@ jQuery(function($){
 				$('#AvailablityTable').html('<img src="http://www.travislayne.com/images/loading.gif" class="icon" />');
 				btn.button('reset');
 				htmlString = '';
-				htmlString = '<div  class="table-responsive">';
+				htmlString = '<div  class="table-responsive" style="height:300px;overflow-y:scroll;overflow-x:scroll;">';
 				htmlString = htmlString + '<table class="table table-hover" width="100%">';
 				//console.log(array['08:00-09:01']);
 				//console.log(arrayOfBlockedTime);
@@ -375,40 +363,111 @@ jQuery(function($){
 			
 			
 			//alert('TimeRange = ' + timeRange);
-			if(timeRange =='00:00-00:00')
-			{
+			if(timeRange =='00:00-00:00'){
 				timeRange = this.value;
 			}
-			else
-			{
+			else{
 				//var timeRangeArray = timeRange.split('-');
 				var tempTimeRange = timeRange;
 				if(timeRange.split('-')[0] > (this.value).split('-')[0]) 
 				{
+					
 					timeRange = (this.value).split('-')[0] +'-'+timeRange.split('-')[1];
-					if(checkTime(timeRange))
-					{		
-						Alert('Can not book: ' + timeRange);
-						timeRange = tempTimeRange;
-						$(this).removeClass('btn-warning').addClass('btn-success clickable');	
+					
+					var upperRange = (parseInt(timeRange.split('-')[1].split(':')[0]) - 1).toString() +':'+ timeRange.split('-')[1].split(':')[1];
+					
+					tempFrom = (parseInt(timeRange.split('-')[0].split(':')[0]) + 1).toString() +':'+timeRange.split('-')[0].split(':')[1];
+					tempTo = (parseInt(timeRange.split('-')[0].split(':')[0]) + 2).toString() +':'+timeRange.split('-')[0].split(':')[1];
+					
+					if(tempFrom.length < 5)
+					{
+						tempFrom = '0'+tempFrom;
 					}
-					else{
-						addTime(tempTimeRange);
+					if(tempTo.length<5)
+					{
+						tempTo = '0'+tempTo;
 					}
+					
+					tempTime = tempFrom+'-'+tempTo;
+					
+					while(upperRange > tempTime.split('-')[0])
+					{
+					
+						var temp = document.getElementById(tempTime);
+						temp.setAttribute('class','btn btn-warning btn-md');
+						
+						tempFrom = (parseInt(tempTime.split('-')[0].split(':')[0]) + 1).toString() +':'+tempTime.split('-')[0].split(':')[1];
+						tempTo = (parseInt(tempTime.split('-')[0].split(':')[0]) + 2).toString() +':'+tempTime.split('-')[0].split(':')[1];
+					
+						if(tempFrom.length < 5)
+						{
+							tempFrom = '0'+tempFrom;
+						}
+						if(tempTo.length<5)
+						{
+							tempTo = '0'+tempTo;
+						}
+					
+						tempTime = tempFrom+'-'+tempTo;
+					
+					}
+					
 				}
 				else if (timeRange.split('-')[0] < (this.value).split('-')[0])
 				{
 					timeRange = timeRange.split('-')[0] +'-'+(this.value).split('-')[1];
-					if(checkTime(timeRange))
-					{		
-						Alert('Can not book: ' + timeRange);
-						timeRange = tempTimeRange;
-						$(this).removeClass('btn-warning').addClass('btn-success clickable');	
+					
+					var upperRange = (parseInt(timeRange.split('-')[1].split(':')[0]) - 1).toString() +':'+ timeRange.split('-')[1].split(':')[1];
+					
+					tempFrom = (parseInt(timeRange.split('-')[0].split(':')[0]) + 1).toString() +':'+timeRange.split('-')[0].split(':')[1];
+					tempTo = (parseInt(timeRange.split('-')[0].split(':')[0]) + 2).toString() +':'+timeRange.split('-')[0].split(':')[1];
+					
+					if(tempFrom.length < 5)
+					{
+						tempFrom = '0'+tempFrom;
 					}
-					else{
-						addTime(tempTimeRange);
+					if(tempTo.length<5)
+					{
+						tempTo = '0'+tempTo;
+					}
+					
+					tempTime = tempFrom+'-'+tempTo;
+					
+					while(upperRange > tempTime.split('-')[0])
+					{
+						var temp = document.getElementById(tempTime);
+						temp.setAttribute('class','btn btn-warning btn-md');
+						
+						tempFrom = (parseInt(tempTime.split('-')[0].split(':')[0]) + 1).toString() +':'+tempTime.split('-')[0].split(':')[1];
+						tempTo = (parseInt(tempTime.split('-')[0].split(':')[0]) + 2).toString() +':'+tempTime.split('-')[0].split(':')[1];
+					
+						if(tempFrom.length < 5)
+						{
+							tempFrom = '0'+tempFrom;
+						}
+						if(tempTo.length < 5)
+						{
+							tempTo = '0'+tempTo;
+						}
+					
+						tempTime = tempFrom+'-'+tempTo;
 					}
 				}
+				else 
+				{
+							
+						Alert('Already Selected');
+				}
+					
+				if(checkTime(timeRange)){
+					
+					Alert('Can not book: ' + timeRange);
+					timeRange = tempTimeRange;
+					$(this).removeClass('btn-warning').addClass('btn-success clickable');
+					
+					
+				}
+				
 				
 			}
 			
@@ -455,8 +514,7 @@ jQuery(function($){
 	
 		//alert('submitbutton123');
 		if(timeRange == '00:00-00:00'){
-			//document.getElementById('errorCalendar').innerHTML='Please Select A Valid Time';
-			Alert("Please Select A Valid Time");
+			document.getElementById('errorCalendar').innerHTML='Please Select A Valid Time';
 			return false;
 		}
 		$sessionData.mc = $mc;
@@ -465,6 +523,7 @@ jQuery(function($){
 		
 		//console.log($sessionData);
 		document.getElementById('errorCalendar').innerHTML='';
+
 		
 		$('#download').removeClass('hidden').addClass('visible');
 	});
@@ -476,6 +535,8 @@ jQuery(function($){
 		delete $sessionData.from;
 		delete $sessionData.to;
 		bldTable();
+		
+		
 		
 		//console.log($sessionData);
 		$('#submitbutton123').removeClass('visible').addClass('hidden');
@@ -506,7 +567,6 @@ jQuery(function($){
 					$('#alertModal').modal('show');
 					//alert(data.message);
 					timeRange = '00:00-00:00';
-					document.getElementById('timeSpan').innerHTML="";
 					htmlString = '';
 					arrayOfBlockedTime = {};
 					delete $sessionData.mc ;
@@ -554,7 +614,7 @@ jQuery(function($){
 				$('#AvailablityTable').html('<img src="http://www.travislayne.com/images/loading.gif" class="icon" />');
 				//btn.button('reset');
 				htmlString = '';
-				htmlString = '<div  class="table-responsive">';
+				htmlString = '<div  class="table-responsive" style="height:300px;overflow-y:scroll;overflow-x:scroll;">';
 				htmlString = htmlString + '<table class="table table-hover" width="100%">';
 				//console.log(array['08:00-09:01']);
 				//console.log(arrayOfBlockedTime);
@@ -665,50 +725,6 @@ jQuery(function($){
 		});	
 	
 	});
-	
-var addTime = function(tempTimeRange)
-	{
-					
-		var upperRange = (parseInt(timeRange.split('-')[1].split(':')[0]) - 1).toString() +':'+ timeRange.split('-')[1].split(':')[1];
-		
-		if(upperRange.length < 5)
-		{
-			upperRange = '0' + upperRange;
-		}
-				
-		tempFrom = (parseInt(timeRange.split('-')[0].split(':')[0]) + 1).toString() +':'+timeRange.split('-')[0].split(':')[1];
-		tempTo = (parseInt(timeRange.split('-')[0].split(':')[0]) + 2).toString() +':'+timeRange.split('-')[0].split(':')[1];
-				
-		if(tempFrom.length < 5)
-		{
-			tempFrom = '0'+tempFrom;
-		}
-		if(tempTo.length< 5)
-		{
-				tempTo = '0'+tempTo;
-		}
-				
-		tempTime = tempFrom+'-'+tempTo;
-				
-		while(upperRange > tempTime.split('-')[0])
-		{
-			var temp = document.getElementById(tempTime);
-			temp.setAttribute('class','btn btn-warning btn-md');
-					
-			tempFrom = (parseInt(tempTime.split('-')[0].split(':')[0]) + 1).toString() +':'+tempTime.split('-')[0].split(':')[1];
-			tempTo = (parseInt(tempTime.split('-')[0].split(':')[0]) + 2).toString() +':'+tempTime.split('-')[0].split(':')[1];
-				
-			if(tempFrom.length < 5)
-			{
-				tempFrom = '0'+tempFrom;
-			}
-			if(tempTo.length < 5)
-			{
-				tempTo = '0'+tempTo;
-			}
-			tempTime = tempFrom+'-'+tempTo;
-		}
-	}
 	
 	
 	 $('#myNav').click('li', function() {
@@ -905,15 +921,6 @@ var addTime = function(tempTimeRange)
 	});
 	
 	
-	var filterArray = function($arr){
-			uniqueArray = $arr.filter(function(elem, pos, self) {
-				return self.indexOf(elem) == pos;
-			});
-			return uniqueArray;
-	};
-	
-	
-	
 	var availableTags = [];
 	
 	var PossibleSoftwares = ['TCS Mastercraft','Eclipse','JBOSS Webserver','Tomcat Webserver','Jetty Webserver','PHP','Python','Java jdk','Ruby',
@@ -992,61 +999,41 @@ var addTime = function(tempTimeRange)
 	
 	
 	
+	
 	$('#siriachaSubmit').click(function(e){
-		e.preventDefault();
-		
+		e.preventDefault();		
 		if($('#Software').val() == ''){
-			Alert('Please select/add software');
-			return false;
-		}
-		var allVals = $('.ws:checked').map(function() {return this.value;});
-		//console.log(allVals);
-		var mcArr = [];
-		var data ={}
-		data.sw = $('#Software').val();
-		
-		for(var i=0 ; i< allVals.length ; i++){
-			console.log(allVals[i]);
-			mcArr.push(parseInt(allVals[i]));
-		}
-		console.log(allVals.length);
-		data.mc = mcArr;
-		console.log(data.mc);
-		$.ajax({
-			type: 'POST',
-			data: JSON.stringify(data),
-			contentType: 'application/json',
-			url: '/addSoftware',						
-			success: function(data) {
-				//console.log(data.msg);
-				if(data.msg =='success'){
-					if (availableTags.indexOf($('#Software').val()) == -1){
-						availableTags.push($('#Software').val());
-						
-					}
-					if (PossibleSoftwares.indexOf($('#Software').val()) == -1){
-						PossibleSoftwares.push($('#Software').val());
-					}
-					
-					//filterArray(availableTags);
-					//PossibleSoftwares.push($('#Software').val());filterArray(PossibleSoftwares);
-					Alert('software successfully added');
-				}
-				else if(data.msg =='AA'){
-					Alert('That software is already available at those machines');
-				}
-			},
-			error: function (xhr, status, error) {
-				Alert('Error connecting to Server');
-			}
+			document.getElementById('alertSpan').innerHTML='Please select/add software';
 			
-		});
-		
+		}else{
+			var allVals = $('.ws:checked').map(function() {return this.value;}).get().join(',');
+			//console.log(allVals);
+			
+			var data ={}
+			data.sw = $('#Software').val();
+			data.mc = allVals;
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(data),
+				contentType: 'application/json',
+				url: '/addSoftware',						
+				success: function(data) {
+					//console.log(data.msg);
+					availableTags.push($('#Software').val());
+					document.getElementById('alertSpan').innerHTML='Succesfully Added Software';
+					
+				},
+				error: function (xhr, status, error) {
+					document.getElementById('alertSpan').innerHTML='Error connecting to Server';
+				}
+
+			
+			});
+		}
 		
 		
 		
 	});		
-			
 	
 	var Alert = function($value){
 		
